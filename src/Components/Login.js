@@ -1,65 +1,78 @@
 import React from "react";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { initializeApp } from "firebase/app";
 
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+const firebaseConfig = {
+  apiKey: "AIzaSyDQHKps6SLjFLgOS9goVHkxs9sqcurZnSE",
+  authDomain: "to-do-list-cf9c2.firebaseapp.com",
+  projectId: "to-do-list-cf9c2",
+  storageBucket: "to-do-list-cf9c2.appspot.com",
+  messagingSenderId: "247312395160",
+  appId: "1:247312395160:web:d6bca5de50635d34d299ed",
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-function Login() {
+export default function Login() {
   const provider = new GoogleAuthProvider();
-  const auth = getAuth();
 
-  const googleSignIn = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // Handle successful Google sign-in
-        console.log("Google sign-in successful:", result.user.email);
-        alert("Google sign-in successful");
-        // Optionally, redirect the user
-      })
-      .catch((error) => {
-        console.error("Google sign-in error:", error.code, error.message);
-        alert(`Google sign-in failed: ${error.message}`);
-      });
+  const signin = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      alert(error.message);
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    }
   };
 
   return (
-    <div className="container">
-      <div className="card">
-        <h2>Login Form</h2>
-        <div className="login-register">
-          <a
-            href="https://your-login-page.com" // Replace with your login page URL
-            className="login"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Login
-          </a>
-          <a
-            href="https://your-signup-page.com" // Replace with your signup page URL
-            className="register"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Signup
-          </a>
+    <div>
+      <form>
+        <div className="mb-3 my-5 text-center">
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            Email address
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
         </div>
-        {/* Remove form element as it's not used here */}
-        {/* <form className="form">
-          <input type="email" placeholder="Email Address" className="email" />
-          <input type="password" placeholder="Password" className="password" />
-        </form> */}
-        <a href="#" className="forgot-password">
-          Forgot password?
-        </a>
-        <button onClick={googleSignIn} type="submit" className="login-btn">
-          Login with Google
-        </button>
-        <div className="footer-card">
-          <p>Not a member?</p>
-          <a href="#">Signup now</a>
+        <div className="mb-3 text-center">
+          <label htmlFor="exampleInputPassword1" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+          />
         </div>
-      </div>
+        <div className="text-center">
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+          <button onClick={signin} type="button" className="btn btn-primary">
+            Login with Google
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
-
-export default Login;
