@@ -13,7 +13,11 @@ const Content = (props) => {
         setLoading(true);
         const url = `https://newsapi.org/v2/top-headlines?country=us&category=${props.category}&apiKey=a4b086bc3fab4d4ab05dac505f24606f&pageSize=20&page=${page}`;
         const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const parsedData = await response.json();
+        console.log("API Response:", parsedData);
         setArticles(parsedData.articles || []);
         setTotalResults(parsedData.totalResults || 0);
         setLoading(false);
