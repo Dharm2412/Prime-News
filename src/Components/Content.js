@@ -30,13 +30,13 @@ const Content = (props) => {
     fetchArticles();
   }, [page, props.category]);
 
-  const prevState = () => {
+  const prevPage = () => {
     if (page > 1) {
       setPage(page - 1);
     }
   };
 
-  const nextState = () => {
+  const nextPage = () => {
     if (page + 1 <= Math.ceil(totalResults / 20)) {
       setPage(page + 1);
     }
@@ -100,7 +100,7 @@ const Content = (props) => {
           disabled={page <= 1}
           type="button"
           className="btn btn-dark"
-          onClick={prevState}
+          onClick={prevPage}
         >
           &larr; Prev
         </button>
@@ -108,7 +108,7 @@ const Content = (props) => {
           disabled={page + 1 > Math.ceil(totalResults / 20)}
           type="button"
           className="btn btn-dark"
-          onClick={nextState}
+          onClick={nextPage}
         >
           Next &rarr;
         </button>
