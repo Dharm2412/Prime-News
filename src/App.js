@@ -3,10 +3,10 @@ import "./App.css";
 import Header from "./Components/Header";
 import Content from "./Components/Content";
 import Footer from "./Components/Footer";
-// import ContactUs from "./Components/Contect";
+import ContactUs from "./Components/Contect";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Updated import
 
-// import Login from "./Components/Login";
+import Login from "./Components/Login";
 
 function App() {
   return (
@@ -16,8 +16,8 @@ function App() {
         <Routes>
           {" "}
           {/* Replaced Switch with Routes */}
-          // <Route exact path="/login" element={<Login />} />
-          // <Route exact path="/Contect" element={<ContactUs />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/Contect" element={<ContactUs />} />
           <Route
             exact
             path="/"
