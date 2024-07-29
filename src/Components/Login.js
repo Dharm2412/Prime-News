@@ -1,42 +1,20 @@
 import React from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDQHKps6SLjFLgOS9goVHkxs9sqcurZnSE",
-  authDomain: "to-do-list-cf9c2.firebaseapp.com",
-  projectId: "to-do-list-cf9c2",
-  storageBucket: "to-do-list-cf9c2.appspot.com",
-  messagingSenderId: "247312395160",
-  appId: "1:247312395160:web:d6bca5de50635d34d299ed",
-};
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import { auth, provider } from "./Firebase";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 export default function Login() {
-  const provider = new GoogleAuthProvider();
-
   const signin = async (e) => {
     e.preventDefault();
     try {
       const result = await signInWithPopup(auth, provider);
-      // This gives you a Google Access Token. You can use it to access the Google API.
+      console.log("Sign-in successful:", result);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
-      // The signed-in user info.
       const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
+      console.log("User info:", user);
     } catch (error) {
-      // Handle Errors here.
-      const errorCode = error.code;
+      console.error("Error during sign-in:", error);
       alert(error.message);
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
     }
   };
 
